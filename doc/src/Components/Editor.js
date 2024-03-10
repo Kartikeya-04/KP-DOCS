@@ -5,22 +5,45 @@ import 'quill/dist/quill.snow.css';
 import './style.css';
 import { io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
+import Navbar from './Navbar';
+
 function Editor() {
+  // Define the toolbar options for the Quill editor
   const TOOL = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     [{ font: [] }],
     [{ list: 'ordered' }, { list: 'bullet' }],
     ['bold', 'italic', 'underline'],
-    [{ color: [] }, { background: [] }],
+    [
+      {
+        color: [
+          'blue',
+          'black',
+          'orange',
+          'pink',
+          'red',
+          'yellow',
+          'green',
+          'purple',
+        ],
+      },
+      { background: ['white', 'grey', 'yellow', '#4CB9E7', 'aliceblue'] },
+    ],
     [{ script: 'sub' }, { script: 'super' }],
     [{ align: [] }],
     ['image', 'blockquote', 'code-block'],
+
     ['clean'],
   ];
-  // var all;
+
+  // Get the document ID from the URL parameters
   const { id: documentId } = useParams();
+
+  // State variables for the socket connection and Quill editor instance
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
+
+  // Initialize the Quill editor when the component mounts
 
   useEffect(() => {
     return () => {
@@ -33,7 +56,7 @@ function Editor() {
     };
   }, []);
 
-  //2
+  // Connect to the server using socket.io when the component mounts
   useEffect(() => {
     const s = io('http://localhost:3001');
     setSocket(s);
@@ -43,7 +66,7 @@ function Editor() {
     };
   }, []);
 
-  //3
+  // Load the document content from the server when the socket connection is established
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -55,7 +78,7 @@ function Editor() {
     socket.emit('get-document', documentId);
   }, [socket, quill, documentId]);
 
-  //4
+  // Periodically save the document content to the server
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -68,7 +91,8 @@ function Editor() {
       clearInterval(interval);
     };
   }, [socket, quill]);
-  //5
+
+  // Receive changes made by other users and update the editor content
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -81,7 +105,8 @@ function Editor() {
       socket.off('receive-changes', handler);
     };
   }, [socket, quill]);
-  //6
+
+  // Send changes made by the current user to other users
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -96,23 +121,8 @@ function Editor() {
     };
   }, [socket, quill]);
 
-  // useEffect(() => {
-  //   // Assuming 'quill' is your Quill instance
-  //   if (quill) {
-  //     socket.on('all-content', (data) => {
-  //       console.log(data.ops);
-  //       all.push(data);
-  //       all.map((a) => a.ops);
-  //     });
-  //     socket.emit('send-req', 'go');
-  //   } else {
-  //     console.error(
-  //       'Invalid Quill container. Make sure Quill is properly initialized.'
-  //     );
-  //   }
-  // }, [quill, socket]);
-
   //main
+  // Render the Quill editor component
   return (
     <div className="try">
       <h3>Type here ....</h3>
@@ -121,5 +131,3 @@ function Editor() {
 }
 
 export default Editor;
-
-//

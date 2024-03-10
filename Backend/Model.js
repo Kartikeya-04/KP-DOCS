@@ -6,8 +6,26 @@ const Document = new mongoose.Schema({
 });
 const Documents = new mongoose.model('Documents', Document);
 const User = new mongoose.Schema({
-  username: String,
-  password: String,
+  id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  refreshToken: {
+    type: String,
+  },
 });
 
 const Users = new mongoose.model('Users', User);

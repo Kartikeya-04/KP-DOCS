@@ -1,7 +1,7 @@
 import React from 'react';
-import SignIn from './SignIn';
-import Editor from './Editor';
-
+import SignIn from './Components/SignIn';
+import Editor from './Components/Editor';
+import LogIn from './Components/LogIn';
 import {
   BrowserRouter as Router,
   Route,
@@ -18,6 +18,7 @@ function App() {
         <Route path="/" element={<SignIn />} />
 
         <Route path="/documents/:id" element={<Editor />} />
+        <Route path="/login" element={<LogIn />} />
       </Routes>
     </Router>
   );

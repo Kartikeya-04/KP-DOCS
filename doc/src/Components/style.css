@@ -3,7 +3,7 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
-  /* height: 100vh; */
+  height: 100vh;
 }
 
 .try .ql-editor {
@@ -33,9 +33,7 @@ body {
   height: 30rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
-/* .ql-toolbar.ql-snow {
-  /* display: none; */
-/* }  */
+
 @page {
   margin: 1in;
 }
